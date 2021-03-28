@@ -11,7 +11,7 @@ const Home = ({ data }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AddUser />
-      <AllUserCards users={data} />
+      {/* <AllUserCards users={data} /> */}
 
       <footer className={styles.footer}>
         Made by :
@@ -32,14 +32,18 @@ const Home = ({ data }) => {
   );
 };
 
-export async function getStaticProps(context) {
-  const res = await fetch("http://localhost:3000/api/userdata");
+Home.getInitialProps = async ({
+  req: {
+    headers: { host },
+  },
+}) => {
+  const res = await fetch(`http://${host}/api/userdata`);
   const json = await res.json();
   return {
     props: {
       data: json,
     },
   };
-}
+};
 
 export default Home;
